@@ -1,0 +1,187 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>EZ NIRMAN - Next Gen Admin Portal</title>
+  <!-- [Favicon] icon -->
+  <link rel="icon" href="assets/images/logo.gif" type="image/x-icon">
+  <link rel="stylesheet" href="assets/frontend/style.css">
+</head>
+
+<body>
+  <div id="particles"></div>
+  <div class="gradient-bg"></div>
+  <div class="gradient-overlay"></div>
+  <div class="mesh-grid"></div>
+
+  <div class="orb orb1"></div>
+  <div class="orb orb2"></div>
+  <div class="orb orb3"></div>
+
+  <div class="content">
+    <!-- Navbar -->
+    <nav class="navbar">
+      <div class="nav-container">
+        <div class="logo-wrapper">
+          <div class="logo-3d"><img src="assets/images/logo.gif" width="80" alt=""></div>
+          <div class="brand-info">
+            <div class="brand-title">EZ NIRMAN</div>
+            <div class="brand-subtitle">EZ Construction Management</div>
+          </div>
+        </div>
+        <div class="nav-status">
+          <div class="status-dot"></div>
+          <span class="status-text">System Online</span>
+        </div>
+      </div>
+    </nav>
+
+    <!-- Hero Section -->
+    <section class="hero">
+      <div class="hero-badge">🚀 Next Generation Platform</div>
+      <h1 class="hero-title">Revolutionary Construction Management</h1>
+      <p class="hero-description">
+        Transform your construction empire with Real-time analytics,
+        and seamless workflow automation. Experience the future of construction administration. And Cash Flow Management.
+      </p>
+      <div class="hero-cta">
+        <a href="admin-login.html" class="btn-primary">Enter Admin Portal</a>
+        <a href="user-login.html" class="btn-secondary">Enter User Portal</a>
+        <a href="#features" class="btn-primary">Explore Features</a>
+      </div>
+    </section>
+
+    <!-- CTA Section -->
+    <section class="cta-section">
+      <div class="cta-container">
+        <h2 class="cta-title">Ready to Transform Your Business?</h2>
+        <p class="cta-description">
+          Join thousands of construction professionals using EZ NIRMAN to build smarter
+        </p>
+        <div class="cta-button">
+          <a href="login.html" class="btn-primary">Access Your Dashboard</a>
+        </div>
+      </div>
+    </section>
+
+    <!-- Stats Section -->
+    <section class="stats-section">
+      <div class="stats-grid">
+        <div class="stat-card">
+          <div class="stat-number">500+</div>
+          <div class="stat-label">Active Projects</div>
+        </div>
+        <div class="stat-card">
+          <div class="stat-number">99.9%</div>
+          <div class="stat-label">Uptime Guarantee</div>
+        </div>
+        <div class="stat-card">
+          <div class="stat-number">24/7</div>
+          <div class="stat-label">Live Support</div>
+        </div>
+        <div class="stat-card">
+          <div class="stat-number">10K+</div>
+          <div class="stat-label">Tasks Completed</div>
+        </div>
+      </div>
+    </section>
+
+    <!-- Features Section -->
+    <section class="features-section" id="features">
+      <div class="section-header">
+        <div class="section-subtitle">Powerful Features</div>
+        <h2 class="section-title">Everything You Need</h2>
+        <p class="section-description">
+          Comprehensive tools designed for modern construction management
+        </p>
+      </div>
+
+      <div class="features-grid">
+        <div class="feature-card">
+          <div class="feature-icon-wrapper">🏗️</div>
+          <h3 class="feature-title">Smart Construction Hub</h3>
+          <p class="feature-description">
+            AI-powered project tracking with predictive analytics, automated scheduling,
+            and real-time progress monitoring across all construction sites.
+          </p>
+        </div>
+
+        <div class="feature-card">
+          <div class="feature-icon-wrapper">🚜</div>
+          <h3 class="feature-title">Machinery Intelligence</h3>
+          <p class="feature-description">
+            Advanced equipment management with IoT integration, predictive maintenance,
+            utilization analytics, and automated allocation systems.
+          </p>
+        </div>
+
+        <div class="feature-card">
+          <div class="feature-icon-wrapper">💰</div>
+          <h3 class="feature-title">Financial Command</h3>
+          <p class="feature-description">
+            Complete financial control with automated invoicing, budget forecasting,
+            expense tracking, and real-time profitability dashboards.
+          </p>
+        </div>
+
+        <div class="feature-card">
+          <div class="feature-icon-wrapper">🏢</div>
+          <h3 class="feature-title">Facade Excellence</h3>
+          <p class="feature-description">
+            Specialized modules for exterior work with quality checkpoints,
+            material tracking, completion milestones, and warranty management.
+          </p>
+        </div>
+
+        <div class="feature-card">
+          <div class="feature-icon-wrapper">📊</div>
+          <h3 class="feature-title">Advanced Analytics</h3>
+          <p class="feature-description">
+            Data-driven insights with interactive dashboards, custom reports,
+            performance benchmarking, and predictive trend analysis.
+          </p>
+        </div>
+
+        <div class="feature-card">
+          <div class="feature-icon-wrapper">👥</div>
+          <h3 class="feature-title">Team Collaboration</h3>
+          <p class="feature-description">
+            Unified platform with integrated communication, task management,
+            document sharing, and role-based access control systems.
+          </p>
+        </div>
+      </div>
+    </section>
+
+
+
+    <!-- Footer -->
+    <footer class="footer">
+      <div class="footer-content">
+        <p>&copy; 2025 EZ NIRMAN. Engineered for Excellence | Ranihati Construction PVT LTD | Building Tomorrow's Infrastructure Today</p>
+      </div>
+    </footer>
+  </div>
+
+  <script>
+    // Particle System
+    const particlesContainer = document.getElementById('particles');
+    const particleCount = 50;
+
+    for (let i = 0; i < particleCount; i++) {
+      const particle = document.createElement('div');
+      particle.className = 'particle';
+      const size = Math.random() * 4 + 2; // Random size between 2 and 6
+      particle.style.width = `${size}px`;
+      particle.style.height = `${size}px`;
+      particle.style.left = `${Math.random() * 100}%`;
+      particle.style.top = `${Math.random() * 100}%`;
+      particle.style.animationDuration = `${Math.random() * 5 + 10}s`; // Random duration between 10 and 15 seconds
+      particlesContainer.appendChild(particle);
+    }
+  </script>
+</body>
+
+</html>

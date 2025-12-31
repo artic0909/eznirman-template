@@ -1,0 +1,231 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Admin Login - EZ NIRMAN</title>
+  <link rel="icon" href="assets/images/logo.gif" type="image/x-icon">
+  <link rel="stylesheet" href="assets/frontend/login-style.css">
+</head>
+
+<body>
+  <div id="particles"></div>
+  <div class="gradient-bg"></div>
+  <div class="gradient-overlay"></div>
+  <div class="mesh-grid"></div>
+
+  <div class="orb orb1"></div>
+  <div class="orb orb2"></div>
+  <div class="orb orb3"></div>
+
+  <div class="content">
+    <!-- Back to Home -->
+    <a href="index.html" class="back-link">
+      <span>←</span> Back to Home
+    </a>
+
+    <!-- Login Container -->
+    <div class="login-container">
+      <div class="login-card">
+        <!-- Logo Section -->
+        <div class="login-header">
+          <div class="logo-wrapper">
+            <img src="assets/images/logo.gif" width="80" alt="EZ NIRMAN Logo">
+          </div>
+          <h1 class="login-title">Admin Portal</h1>
+          <p class="login-subtitle">Access the EZ NIRMAN Administration Dashboard</p>
+          <div class="security-badge">
+            <span class="shield-icon">🛡️</span>
+            <span>Secure Access</span>
+          </div>
+        </div>
+
+        <!-- Login Form -->
+        <form class="login-form" id="adminLoginForm">
+          <div class="form-group">
+            <label for="adminEmail" class="form-label">
+              <span class="label-icon">📧</span>
+              Admin Email
+            </label>
+            <input 
+              type="email" 
+              id="adminEmail" 
+              name="email" 
+              class="form-input" 
+              placeholder="admin@eznirman.com"
+              required
+              autocomplete="email"
+            >
+          </div>
+
+          <div class="form-group">
+            <label for="adminPassword" class="form-label">
+              <span class="label-icon">🔐</span>
+              Password
+            </label>
+            <div class="password-wrapper">
+              <input 
+                type="password" 
+                id="adminPassword" 
+                name="password" 
+                class="form-input" 
+                placeholder="Enter your secure password"
+                required
+                autocomplete="current-password"
+              >
+              <button type="button" class="toggle-password" onclick="togglePassword('adminPassword')">
+                👁️
+              </button>
+            </div>
+          </div>
+
+          <div class="form-options">
+            <label class="remember-me">
+              <input type="checkbox" name="remember">
+              <span>Remember me</span>
+            </label>
+            <a href="#" class="forgot-link">Forgot Password?</a>
+          </div>
+
+          <button type="submit" class="btn-login">
+            <span class="btn-text">Access Dashboard</span>
+            <span class="btn-icon">→</span>
+          </button>
+
+          <div class="login-footer">
+            <p class="switch-portal">
+              Not an admin? 
+              <a href="user-login.html" class="portal-link">User Portal →</a>
+            </p>
+          </div>
+        </form>
+
+        <!-- Security Info -->
+        <div class="security-info">
+          <div class="info-item">
+            <span class="info-icon">🔒</span>
+            <span>256-bit Encryption</span>
+          </div>
+          <div class="info-item">
+            <span class="info-icon">⚡</span>
+            <span>2FA Protected</span>
+          </div>
+          <div class="info-item">
+            <span class="info-icon">📊</span>
+            <span>Activity Logged</span>
+          </div>
+        </div>
+      </div>
+
+      <!-- Side Info Panel -->
+      <div class="info-panel">
+        <div class="panel-content">
+          <div class="panel-icon">🏗️</div>
+          <h2 class="panel-title">Admin Control Center</h2>
+          <p class="panel-description">
+            Full system access with real-time monitoring, user management, 
+            project oversight, and comprehensive analytics.
+          </p>
+          <div class="panel-features">
+            <div class="panel-feature">
+              <span class="feature-check">✓</span>
+              <span>Complete System Control</span>
+            </div>
+            <div class="panel-feature">
+              <span class="feature-check">✓</span>
+              <span>User & Role Management</span>
+            </div>
+            <div class="panel-feature">
+              <span class="feature-check">✓</span>
+              <span>Advanced Analytics</span>
+            </div>
+            <div class="panel-feature">
+              <span class="feature-check">✓</span>
+              <span>Security & Audit Logs</span>
+            </div>
+            <div class="panel-feature">
+              <span class="feature-check">✓</span>
+              <span>Cash Flow Management</span>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <script>
+    // Particle System
+    const particlesContainer = document.getElementById('particles');
+    const particleCount = 40;
+
+    for (let i = 0; i < particleCount; i++) {
+      const particle = document.createElement('div');
+      particle.className = 'particle';
+      const size = Math.random() * 4 + 2;
+      particle.style.width = `${size}px`;
+      particle.style.height = `${size}px`;
+      particle.style.left = `${Math.random() * 100}%`;
+      particle.style.top = `${Math.random() * 100}%`;
+      particle.style.animationDuration = `${Math.random() * 5 + 10}s`;
+      particlesContainer.appendChild(particle);
+    }
+
+    // Toggle Password Visibility
+    function togglePassword(inputId) {
+      const input = document.getElementById(inputId);
+      const button = input.nextElementSibling;
+      
+      if (input.type === 'password') {
+        input.type = 'text';
+        button.textContent = '🙈';
+      } else {
+        input.type = 'password';
+        button.textContent = '👁️';
+      }
+    }
+
+    // Form Submission Handler
+    document.getElementById('adminLoginForm').addEventListener('submit', function(e) {
+      e.preventDefault();
+      
+      // Add loading state
+      const submitBtn = this.querySelector('.btn-login');
+      const originalText = submitBtn.innerHTML;
+      submitBtn.innerHTML = '<span class="btn-text">Authenticating...</span><span class="loading-spinner">⏳</span>';
+      submitBtn.disabled = true;
+
+      // Simulate authentication (replace with actual API call)
+      setTimeout(() => {
+        // Replace with actual authentication logic
+        // window.location.href = 'admin-dashboard.html';
+        
+        // For demo purposes, show success message
+        submitBtn.innerHTML = '<span class="btn-text">Success!</span><span class="btn-icon">✓</span>';
+        submitBtn.style.background = 'linear-gradient(135deg, #10b981, #059669)';
+        
+        setTimeout(() => {
+          submitBtn.innerHTML = originalText;
+          submitBtn.disabled = false;
+          submitBtn.style.background = '';
+        }, 2000);
+      }, 1500);
+    });
+
+    // Input Focus Effects
+    const inputs = document.querySelectorAll('.form-input');
+    inputs.forEach(input => {
+      input.addEventListener('focus', function() {
+        this.parentElement.classList.add('focused');
+      });
+      
+      input.addEventListener('blur', function() {
+        if (!this.value) {
+          this.parentElement.classList.remove('focused');
+        }
+      });
+    });
+  </script>
+</body>
+
+</html>

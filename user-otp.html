@@ -1,0 +1,253 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Verify OTP - EZ NIRMAN</title>
+  <link rel="icon" href="assets/images/logo.gif" type="image/x-icon">
+  <link rel="stylesheet" href="assets/frontend/login-style.css">
+</head>
+
+<body>
+  <div id="particles"></div>
+  <div class="gradient-bg"></div>
+  <div class="gradient-overlay"></div>
+  <div class="mesh-grid"></div>
+
+  <div class="orb orb1"></div>
+  <div class="orb orb2"></div>
+  <div class="orb orb3"></div>
+
+  <div class="content">
+    <!-- Back to Reset -->
+    <a href="user-reset-password.html" class="back-link">
+      <span>←</span> Back
+    </a>
+
+    <!-- OTP Container -->
+    <div class="reset-container">
+      <div class="reset-card">
+        <!-- Logo Section -->
+        <div class="reset-header">
+          <div class="logo-wrapper">
+            <img src="assets/images/logo.gif" width="80" alt="EZ NIRMAN Logo">
+          </div>
+          
+
+
+          <h1 class="reset-title">Verify OTP</h1>
+          <p class="reset-subtitle">Enter the 6-digit code we sent to <strong id="displayEmail"></strong></p>
+        </div>
+
+        <!-- OTP Form -->
+        <form class="reset-form" id="otpVerifyForm">
+          <div class="form-group">
+            <label for="otpCode" class="form-label">
+              <span class="label-icon">🔢</span>
+              Verification Code
+            </label>
+            <input 
+              type="text" 
+              id="otpCode" 
+              name="otp" 
+              class="form-input otp-input" 
+              placeholder="Enter 6-digit OTP"
+              maxlength="6"
+              pattern="[0-9]{6}"
+              required
+              autocomplete="off"
+              inputmode="numeric"
+            >
+            <span class="input-helper">Code expires in <span id="timer" class="timer-text">05:00</span></span>
+          </div>
+
+          <button type="submit" class="btn-reset">
+            <span class="btn-text">Verify Code</span>
+            <span class="btn-icon">→</span>
+          </button>
+
+          <div class="resend-section">
+            <p class="resend-text">Didn't receive the code?</p>
+            <button type="button" class="resend-btn" id="resendBtn" disabled>
+              <span class="resend-icon">↻</span>
+              <span>Resend Code (<span id="resendTimer">60</span>s)</span>
+            </button>
+          </div>
+
+          <div class="form-footer">
+            <p class="back-to-login">
+              <a href="user-login.html" class="portal-link">← Back to Login</a>
+            </p>
+          </div>
+        </form>
+
+        <!-- Security Info -->
+        <div class="security-note">
+          <div class="note-icon">📱</div>
+          <div class="note-content">
+            <p class="note-title">Check Your Email</p>
+            <p class="note-text">The verification code has been sent to your email. Please check your inbox and spam folder.</p>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <script>
+    // Particle System
+    const particlesContainer = document.getElementById('particles');
+    const particleCount = 40;
+
+    for (let i = 0; i < particleCount; i++) {
+      const particle = document.createElement('div');
+      particle.className = 'particle';
+      const size = Math.random() * 4 + 2;
+      particle.style.width = `${size}px`;
+      particle.style.height = `${size}px`;
+      particle.style.left = `${Math.random() * 100}%`;
+      particle.style.top = `${Math.random() * 100}%`;
+      particle.style.animationDuration = `${Math.random() * 5 + 10}s`;
+      particlesContainer.appendChild(particle);
+    }
+
+    // Get email from session storage
+    const email = sessionStorage.getItem('resetEmail');
+    if (email) {
+      // Mask email for privacy
+      const [localPart, domain] = email.split('@');
+      const maskedEmail = localPart.charAt(0) + '***' + localPart.charAt(localPart.length - 1) + '@' + domain;
+      document.getElementById('displayEmail').textContent = maskedEmail;
+    } else {
+      // Redirect back if no email found
+      window.location.href = 'user-reset-password.html';
+    }
+
+    // OTP Timer (5 minutes)
+    let timeLeft = 300; // 5 minutes in seconds
+    const timerElement = document.getElementById('timer');
+    
+    const timerInterval = setInterval(() => {
+      const minutes = Math.floor(timeLeft / 60);
+      const seconds = timeLeft % 60;
+      timerElement.textContent = `${minutes.toString().padStart(2, '0')}:${seconds.toString().padStart(2, '0')}`;
+      
+      if (timeLeft <= 0) {
+        clearInterval(timerInterval);
+        timerElement.textContent = 'EXPIRED';
+        timerElement.style.color = '#ef4444';
+        alert('OTP has expired. Please request a new one.');
+      }
+      
+      timeLeft--;
+    }, 1000);
+
+    // Resend Timer (60 seconds)
+    let resendTimeLeft = 60;
+    const resendTimerElement = document.getElementById('resendTimer');
+    const resendBtn = document.getElementById('resendBtn');
+    
+    const resendInterval = setInterval(() => {
+      resendTimeLeft--;
+      resendTimerElement.textContent = resendTimeLeft;
+      
+      if (resendTimeLeft <= 0) {
+        clearInterval(resendInterval);
+        resendBtn.disabled = false;
+        resendBtn.innerHTML = '<span class="resend-icon">↻</span><span>Resend Code</span>';
+        resendBtn.classList.add('resend-active');
+      }
+    }, 1000);
+
+    // Resend OTP
+    resendBtn.addEventListener('click', function() {
+      if (this.disabled) return;
+      
+      this.disabled = true;
+      const originalText = this.innerHTML;
+      this.innerHTML = '<span class="loading-spinner">⏳</span><span>Sending...</span>';
+      
+      // Simulate resending OTP (replace with actual API call)
+      setTimeout(() => {
+        this.innerHTML = '<span>✓</span><span>Code Sent!</span>';
+        
+        // Reset timer
+        resendTimeLeft = 60;
+        resendTimerElement.textContent = resendTimeLeft;
+        
+        setTimeout(() => {
+          this.innerHTML = '<span class="resend-icon">↻</span><span>Resend Code (<span id="resendTimer">60</span>s)</span>';
+          
+          // Restart resend timer
+          const newResendInterval = setInterval(() => {
+            resendTimeLeft--;
+            document.getElementById('resendTimer').textContent = resendTimeLeft;
+            
+            if (resendTimeLeft <= 0) {
+              clearInterval(newResendInterval);
+              resendBtn.disabled = false;
+              resendBtn.innerHTML = '<span class="resend-icon">↻</span><span>Resend Code</span>';
+            }
+          }, 1000);
+        }, 2000);
+      }, 1500);
+    });
+
+    // Auto-format OTP input (only numbers)
+    const otpInput = document.getElementById('otpCode');
+    otpInput.addEventListener('input', function(e) {
+      this.value = this.value.replace(/[^0-9]/g, '');
+    });
+
+    // Form Submission Handler
+    document.getElementById('otpVerifyForm').addEventListener('submit', function(e) {
+      e.preventDefault();
+      
+      const otp = document.getElementById('otpCode').value;
+      const submitBtn = this.querySelector('.btn-reset');
+      const originalText = submitBtn.innerHTML;
+      
+      // Validate OTP
+      if (otp.length !== 6) {
+        alert('Please enter a valid 6-digit OTP');
+        return;
+      }
+
+      // Add loading state
+      submitBtn.innerHTML = '<span class="btn-text">Verifying...</span><span class="loading-spinner">⏳</span>';
+      submitBtn.disabled = true;
+
+      // Simulate OTP verification (replace with actual API call)
+      setTimeout(() => {
+        // For demo: accept any 6-digit code
+        // In production, verify with backend
+        
+        // Store OTP verification status
+        sessionStorage.setItem('otpVerified', 'true');
+        
+        // Show success message
+        submitBtn.innerHTML = '<span class="btn-text">Verified!</span><span class="btn-icon">✓</span>';
+        submitBtn.style.background = 'linear-gradient(135deg, #10b981, #059669)';
+        
+        // Redirect to new password page
+        setTimeout(() => {
+          window.location.href = 'user-new-password.html';
+        }, 1000);
+      }, 1500);
+    });
+
+    // Input Focus Effects
+    const input = document.querySelector('.form-input');
+    input.addEventListener('focus', function() {
+      this.parentElement.classList.add('focused');
+    });
+    
+    input.addEventListener('blur', function() {
+      if (!this.value) {
+        this.parentElement.classList.remove('focused');
+      }
+    });
+  </script>
+</body>
+
+</html>
