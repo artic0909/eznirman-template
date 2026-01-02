@@ -3,7 +3,7 @@
 <!-- [Head] start -->
 
 <head>
-    <title>Add Site</title>
+    <title>All Material Codes</title>
     <!-- [Meta] -->
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=0, minimal-ui">
@@ -91,15 +91,16 @@
                         <label>Site Management</label>
                         <i class="ti ti-news"></i>
                     </li>
-                    <li class="pc-item pc-hasmenu pc-trigger">
+                    <li class="pc-item pc-hasmenu">
                         <a href="#!" class="pc-link"><span class="pc-micon"><i
                                     class="ti ti-building-skyscraper"></i></span><span class="pc-mtext">Working
                                 Sites</span><span class="pc-arrow"><i data-feather="chevron-right"></i></span></a>
                         <ul class="pc-submenu">
-                            <li class="pc-item active"><a class="pc-link" href="#!">Add Site</a></li>
+                            <li class="pc-item"><a class="pc-link" href="#!">Add Site</a></li>
                             <li class="pc-item"><a class="pc-link" href="#!">View Sites</a></li>
                         </ul>
                     </li>
+
 
 
                     <!-- Purchase Register -->
@@ -113,13 +114,13 @@
                             <span class="pc-mtext">Units</span>
                         </a>
                     </li>
-                    <li class="pc-item pc-hasmenu">
+                    <li class="pc-item pc-hasmenu pc-trigger">
                         <a href="#!" class="pc-link"><span class="pc-micon"><i class="ti ti-stack"></i></span><span
                                 class="pc-mtext">Material Management</span><span class="pc-arrow"><i
                                     data-feather="chevron-right"></i></span></a>
                         <ul class="pc-submenu">
                             <li class="pc-item"><a class="pc-link" href="#!">Material Category</a></li>
-                            <li class="pc-item"><a class="pc-link" href="#!">Material Code</a></li>
+                            <li class="pc-item active"><a class="pc-link" href="#!">Material Code</a></li>
                             <li class="pc-item"><a class="pc-link" href="#!">Material Purchase</a></li>
                             <li class="pc-item"><a class="pc-link" href="#!">Material Consume</a></li>
                         </ul>
@@ -306,14 +307,21 @@
                     <div class="row align-items-center">
                         <div class="col-md-10">
                             <div class="page-header-title">
-                                <h5 class="m-b-10">Working Sites</h5>
+                                <h5 class="m-b-10">All Material Code</h5>
                             </div>
                             <ul class="breadcrumb">
-                                <li class="breadcrumb-item"><a href="javascript: void(0)">Site Management</a></li>
-                                <li class="breadcrumb-item" aria-current="page">Add Site</li>
+                                <li class="breadcrumb-item"><a href="javascript: void(0)">Purchase Resgister</a></li>
+                                <li class="breadcrumb-item" aria-current="page">Codes</li>
                             </ul>
                         </div>
                     </div>
+                </div>
+
+                <div class="page-header-actions col-md-2 text-end">
+                    <button class="btn btn-success btn-sm fw-bold" data-bs-toggle="modal"
+                        data-bs-target="#addUnitModal">
+                        <i class="ti ti-plus me-2"></i><span>Add Data</span>
+                    </button>
                 </div>
             </div>
             <!-- [ breadcrumb ] end -->
@@ -325,70 +333,129 @@
                 <div class="col-sm-12">
                     <div class="card">
                         <div class="card-header d-flex justify-content-between align-items-center">
-                            <h5 class="card-title mb-0">Add Working Site</h5>
+                            <h5 class="card-title mb-0">All Material Codes</h5>
+                            <div class="d-flex gap-3">
+                                <button class="btn btn-outline-warning text-primary btn-sm"
+                                    id="exportData">Export</button>
+                                <div class="dropdown">
+                                    <button class="btn btn-primary btn-sm dropdown-toggle" type="button"
+                                        id="bulkActionDropdown" data-bs-toggle="dropdown" aria-expanded="false"
+                                        disabled>
+                                        <i class="ti ti-settings me-1"></i>
+                                        Bulk Actions
+                                    </button>
+                                    <ul class="dropdown-menu" aria-labelledby="bulkActionDropdown">
+                                        <li>
+                                            <a class="dropdown-item text-danger" href="#" id="bulkDelete">
+                                                <i class="ti ti-trash me-2"></i>Delete Selected
+                                            </a>
+                                        </li>
+                                        <li>
+                                            <a class="dropdown-item text-success" href="#" id="bulkActive">
+                                                <i class="ti ti-check me-2"></i>Active Selected
+                                            </a>
+                                        </li>
+                                        <li>
+                                            <a class="dropdown-item text-warning" href="#" id="bulkInactive">
+                                                <i class="ti ti-x me-2"></i>Inactive Selected
+                                            </a>
+                                        </li>
+                                    </ul>
+                                </div>
+                            </div>
                         </div>
                         <div class="card-body">
-                            <form action="">
-                                <div class="row">
-                                    <!-- Site Name -->
-                                    <div class="col-md-6 mb-3">
-                                        <label for="siteName" class="form-label">Site Name<span
-                                                class="text-danger">*</span></label>
-                                        <input type="text" class="form-control" id="siteName"
-                                            placeholder="Enter site name">
-                                    </div>
+                            <div class="table-responsive">
+                                <table class="table table-hover table-striped align-middle">
+                                    <thead class="table-light">
+                                        <tr>
+                                            <th style="width: 50px;">
+                                                <div class="form-check">
+                                                    <input class="form-check-input" type="checkbox" id="selectAll">
+                                                    <label class="form-check-label" for="selectAll"></label>
+                                                </div>
+                                            </th>
+                                            <th>SL</th>
+                                            <th>Creation Date</th>
+                                            <th>Material Code</th>
+                                            <th>Material Name</th>
+                                            <th>Material Category</th>
+                                            <th>Status</th>
+                                            <th class="text-center">Action</th>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                        <tr>
+                                            <td>
+                                                <div class="form-check">
+                                                    <input class="form-check-input row-checkbox" type="checkbox"
+                                                        value="1" id="check1">
+                                                    <label class="form-check-label" for="check1"></label>
+                                                </div>
+                                            </td>
+                                            <td>
+                                                <span class="text-muted">1</span>
+                                            </td>
 
-                                    <!-- Site Code -->
-                                    <div class="col-md-6 mb-3">
-                                        <label for="siteCode" class="form-label">Site Code<span
-                                                class="text-danger">*</span></label>
-                                        <input type="text" class="form-control" id="siteCode"
-                                            placeholder="Enter site code">
-                                    </div>
+                                            <td>
+                                                <span class="text-muted">Dec 15, 2024</span>
+                                            </td>
 
-                                    <!-- Site Starting Date -->
-                                    <div class="col-md-6 mb-3">
-                                        <label for="siteStartingDate" class="form-label">Site Starting Date<span
-                                                class="text-danger">*</span></label>
-                                        <input type="date" class="form-control" id="siteStartingDate"
-                                            placeholder="mm/dd/yyyy">
-                                    </div>
+                                            <td>
+                                                <span class="text-muted">CL061</span>
+                                            </td>
 
-                                    <!-- Site Location -->
-                                    <div class="col-md-6 mb-3">
-                                        <label for="siteLocation" class="form-label">Site Location<span
-                                                class="text-danger">*</span></label>
-                                        <input type="text" class="form-control" id="siteLocation"
-                                            placeholder="Enter address">
-                                    </div>
+                                            <td>
+                                                <span class="text-muted">fgfg</span>
+                                            </td>
 
-                                    <!-- Work Description -->
-                                    <div class="col-12 mb-3">
-                                        <label for="workDescription" class="form-label">Work Description<span
-                                                class="text-danger">*</span></label>
-                                        <textarea class="form-control" id="workDescription" rows="5"
-                                            placeholder="Enter work description"></textarea>
-                                    </div>
+                                            <td>
+                                                <span class="text-muted">fgfgfgfgfgf</span>
+                                            </td>
 
-                                    <!-- Status -->
-                                    <div class="col-md-12 mb-3">
-                                        <label for="status" class="form-label">Status<span
-                                                class="text-danger">*</span></label>
-                                        <select class="form-select" id="status">
-                                            <option value="">Please select a status</option>
-                                            <option value="active" selected>Active</option>
-                                            <option value="inactive">Inactive</option>
-                                            <option value="completed">Completed</option>
-                                        </select>
-                                    </div>
+                                            <td>
+                                                <span class="text-success">Running</span>
+                                            </td>
+                                            <td>
+                                                <div class="d-flex justify-content-center gap-2">
+                                                    <button class="btn btn-sm btn-light-warning border" title="Edit"
+                                                        data-bs-toggle="modal" data-bs-target="#editUnitModal">
+                                                        <i class="ti ti-pencil"></i>
+                                                    </button>
 
-                                    <!-- Submit Buttons -->
-                                    <div class="col-12 text-end">
-                                        <button type="submit" class="btn btn-success">Save</button>
-                                        <button type="reset" class="btn btn-secondary ms-2">Reset</button>
-                                    </div>
-                                </div>
-                            </form>
+                                                    <button class="btn btn-sm btn-light-danger border" title="Delete"
+                                                        data-bs-toggle="modal" data-bs-target="#deleteUnitModal">
+                                                        <i class="ti ti-trash"></i>
+                                                    </button>
+                                                </div>
+                                            </td>
+                                        </tr>
+                                    </tbody>
+
+                                    <!-- pagination -->
+                                    <tfoot>
+                                        <tr>
+                                            <td colspan="12">
+                                                <div class="d-flex justify-content-between align-items-center">
+                                                    <div class="text-muted">Showing 1 to 10 of 50 entries</div>
+                                                    <div class="d-flex align-items-center gap-2">
+                                                        <button class="btn btn-sm btn-outline-primary"
+                                                            disabled>Prev</button>
+                                                        <input type="number"
+                                                            class="form-control form-control-sm text-center"
+                                                            style="width: 60px;" value="1" min="1" max="5">
+                                                        <span class="text-muted">/</span>
+                                                        <input type="number"
+                                                            class="form-control form-control-sm text-center"
+                                                            style="width: 60px;" value="5" readonly>
+                                                        <button class="btn btn-sm btn-outline-primary">Next</button>
+                                                    </div>
+                                                </div>
+                                            </td>
+                                        </tr>
+                                    </tfoot>
+                                </table>
+                            </div>
                         </div>
                     </div>
                 </div>
@@ -398,17 +465,127 @@
 
             <!-- All Modals -->
 
-            <!-- Delete Category Modal -->
-            <div class="modal fade" id="deleteMachineModal" tabindex="-1" aria-labelledby="deleteMachineModalLabel"
+            <!-- Add Material Category Modal -->
+            <div class="modal fade" id="addUnitModal" tabindex="-1" aria-labelledby="addUnitModalLabel"
+                aria-hidden="true">
+                <div class="modal-dialog modal-lg">
+                    <form class="modal-content">
+                        <div class="modal-header">
+                            <h5 class="modal-title" id="addUnitModalLabel">Add Material Code</h5>
+                            <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                        </div>
+                        <div class="modal-body">
+                            <div class="row">
+                                <!-- Code -->
+                                <div class="col-md-6 mb-3">
+                                    <label for="" class="form-label">Material Code<span
+                                            class="text-danger">*</span></label>
+                                    <input type="text" class="form-control" id="">
+                                </div>
+
+                                <!-- Name -->
+                                <div class="col-md-6 mb-3">
+                                    <label for="" class="form-label">Material Name<span
+                                            class="text-danger">*</span></label>
+                                    <input type="text" class="form-control" id="">
+                                </div>
+
+                                <!-- Choose Category -->
+                                <div class="col-md-6 mb-3">
+                                    <label for="" class="form-label">Material Category<span
+                                            class="text-danger">*</span></label>
+                                    <select class="form-select" id="">
+                                        <option value="">--Select--</option>
+                                        <option value="category1">Category 1</option>
+                                        <option value="category2">Category 2</option>
+                                    </select>
+                                </div>
+
+                                <!-- Status -->
+                                <div class="col-md-6 mb-3">
+                                    <label for="" class="form-label">Status<span class="text-danger">*</span></label>
+                                    <select class="form-select" id="">
+                                        <option value="">--Select--</option>
+                                        <option value="active" selected>Active</option>
+                                        <option value="inactive">Inactive</option>
+                                    </select>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="modal-footer">
+                            <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+                            <button type="submit" class="btn btn-success">Save</button>
+                        </div>
+                    </form>
+                </div>
+            </div>
+
+            <!-- Edit Material Category Modal -->
+            <div class="modal fade" id="editUnitModal" tabindex="-1" aria-labelledby="editUnitModalLabel"
+                aria-hidden="true">
+                <div class="modal-dialog modal-lg">
+                    <form class="modal-content">
+                        <div class="modal-header">
+                            <h5 class="modal-title" id="addUnitModalLabel">Edit Material Code</h5>
+                            <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                        </div>
+                        <div class="modal-body">
+                            <div class="row">
+                                <!-- Code -->
+                                <div class="col-md-6 mb-3">
+                                    <label for="" class="form-label">Material Code<span
+                                            class="text-danger">*</span></label>
+                                    <input type="text" class="form-control" id="">
+                                </div>
+
+                                <!-- Name -->
+                                <div class="col-md-6 mb-3">
+                                    <label for="" class="form-label">Material Name<span
+                                            class="text-danger">*</span></label>
+                                    <input type="text" class="form-control" id="">
+                                </div>
+
+                                <!-- Choose Category -->
+                                <div class="col-md-6 mb-3">
+                                    <label for="" class="form-label">Material Category<span
+                                            class="text-danger">*</span></label>
+                                    <select class="form-select" id="">
+                                        <option value="">--Select--</option>
+                                        <option value="category1">Category 1</option>
+                                        <option value="category2">Category 2</option>
+                                    </select>
+                                </div>
+
+                                <!-- Status -->
+                                <div class="col-md-6 mb-3">
+                                    <label for="" class="form-label">Status<span class="text-danger">*</span></label>
+                                    <select class="form-select" id="">
+                                        <option value="">--Select--</option>
+                                        <option value="active" selected>Active</option>
+                                        <option value="inactive">Inactive</option>
+                                    </select>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="modal-footer">
+                            <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+                            <button type="submit" class="btn btn-success">Save</button>
+                        </div>
+                    </form>
+                </div>
+            </div>
+
+            <!-- Delete Material Category Modal -->
+            <div class="modal fade" id="deleteUnitModal" tabindex="-1" aria-labelledby="deleteUnitModalLabel"
                 aria-hidden="true">
                 <div class="modal-dialog">
                     <form class="modal-content">
                         <div class="modal-header">
-                            <h5 class="modal-title" id="deleteMachineModalLabel">Delete Machine</h5>
+                            <h5 class="modal-title" id="deleteUnitModalLabel">Delete Material Code</h5>
                             <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                         </div>
                         <div class="modal-body">
-                            <p>Are you sure you want to delete this machine?</p>
+                            <p>Are you sure you want to delete this material code?</p>
                         </div>
                         <div class="modal-footer">
                             <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
