@@ -1,0 +1,1054 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Add Money - PayWallet</title>
+    <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+    <style>
+        :root {
+            --bg-primary: #0B0E13;
+            --bg-secondary: #13161C;
+            --bg-tertiary: #1A1E27;
+            --accent-primary: #00F0FF;
+            --accent-secondary: #7B61FF;
+            --text-primary: #FFFFFF;
+            --text-secondary: #8B92A7;
+            --success: #00FF94;
+            --error: #FF3B6D;
+            --card-border: rgba(123, 97, 255, 0.15);
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Plus Jakarta Sans', sans-serif;
+            background: var(--bg-primary);
+            color: var(--text-primary);
+            min-height: 100vh;
+            overflow-x: hidden;
+        }
+
+        /* Background Effect */
+        body::before {
+            content: '';
+            position: fixed;
+            top: -50%;
+            left: -50%;
+            width: 200%;
+            height: 200%;
+            background: radial-gradient(circle at 20% 50%, rgba(123, 97, 255, 0.08) 0%, transparent 50%),
+                        radial-gradient(circle at 80% 80%, rgba(0, 240, 255, 0.06) 0%, transparent 50%);
+            animation: backgroundShift 20s ease-in-out infinite;
+            pointer-events: none;
+            z-index: 0;
+        }
+
+        @keyframes backgroundShift {
+            0%, 100% { transform: translate(0, 0); }
+            50% { transform: translate(-5%, -5%); }
+        }
+
+        .container {
+            max-width: 1400px;
+            margin: 0 auto;
+            padding: 0 24px;
+            position: relative;
+            z-index: 1;
+        }
+
+        /* Topbar */
+        .topbar {
+            background: rgba(19, 22, 28, 0.8);
+            backdrop-filter: blur(20px);
+            border-bottom: 1px solid var(--card-border);
+            padding: 20px 0;
+            position: sticky;
+            top: 0;
+            z-index: 1000;
+        }
+
+        .topbar-content {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            max-width: 1400px;
+            margin: 0 auto;
+            padding: 0 24px;
+        }
+
+        .logo {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+        }
+
+        .logo-icon {
+            width: 48px;
+            height: 48px;
+            background: linear-gradient(135deg, var(--accent-secondary) 0%, var(--accent-primary) 100%);
+            border-radius: 14px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            position: relative;
+            box-shadow: 0 8px 24px rgba(123, 97, 255, 0.3);
+        }
+
+        .logo-icon svg {
+            width: 28px;
+            height: 28px;
+            fill: white;
+        }
+
+        .logo-icon i {
+            font-size: 28px;
+            color: white;
+        }
+
+        .logo-text {
+            font-size: 28px;
+            font-weight: 800;
+            letter-spacing: -0.5px;
+            background: linear-gradient(135deg, var(--accent-primary) 0%, var(--accent-secondary) 100%);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+        }
+
+        .user-info {
+            text-align: right;
+            display: flex;
+            align-items: center;
+            gap: 16px;
+        }
+
+        .user-avatar-small {
+            width: 44px;
+            height: 44px;
+            border-radius: 12px;
+            background: linear-gradient(135deg, var(--accent-secondary) 0%, var(--accent-primary) 100%);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-weight: 700;
+            font-size: 18px;
+            box-shadow: 0 4px 16px rgba(123, 97, 255, 0.3);
+        }
+
+        .user-details {
+            display: flex;
+            flex-direction: column;
+            gap: 4px;
+        }
+
+        .user-name {
+            font-weight: 700;
+            font-size: 16px;
+            color: var(--text-primary);
+            letter-spacing: -0.2px;
+        }
+
+        .user-email {
+            font-size: 13px;
+            color: var(--text-secondary);
+            font-weight: 500;
+        }
+
+        /* Add Money Section */
+        .add-money-section {
+            max-width: 800px;
+            margin: 60px auto;
+            padding-bottom: 60px;
+        }
+
+        .page-header {
+            text-align: center;
+            margin-bottom: 48px;
+            animation: fadeInUp 0.6s cubic-bezier(0.4, 0, 0.2, 1);
+        }
+
+        .page-icon {
+            width: 80px;
+            height: 80px;
+            margin: 0 auto 24px;
+            background: linear-gradient(135deg, var(--success) 0%, var(--accent-primary) 100%);
+            border-radius: 20px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            box-shadow: 0 20px 60px rgba(0, 255, 148, 0.4);
+        }
+
+        .page-icon svg {
+            width: 40px;
+            height: 40px;
+            fill: white;
+        }
+
+        .page-icon i {
+            font-size: 40px;
+            color: white;
+        }
+
+        .page-title {
+            font-size: 32px;
+            font-weight: 800;
+            margin-bottom: 8px;
+            letter-spacing: -0.5px;
+        }
+
+        .page-subtitle {
+            font-size: 16px;
+            color: var(--text-secondary);
+            font-weight: 500;
+        }
+
+        /* Current Balance Card */
+        .balance-display {
+            background: linear-gradient(135deg, var(--bg-secondary) 0%, var(--bg-tertiary) 100%);
+            padding: 32px;
+            border-radius: 24px;
+            border: 1px solid var(--card-border);
+            margin-bottom: 32px;
+            text-align: center;
+            animation: fadeInUp 0.6s cubic-bezier(0.4, 0, 0.2, 1) 0.1s backwards;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .balance-display::before {
+            content: '';
+            position: absolute;
+            inset: 0;
+            background: linear-gradient(135deg, rgba(0, 255, 148, 0.05) 0%, transparent 100%);
+        }
+
+        .balance-label {
+            font-size: 14px;
+            color: var(--text-secondary);
+            font-weight: 600;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            margin-bottom: 12px;
+            position: relative;
+        }
+
+        .balance-amount {
+            font-size: 48px;
+            font-weight: 800;
+            background: linear-gradient(135deg, var(--success) 0%, var(--accent-primary) 100%);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+            letter-spacing: -2px;
+            position: relative;
+        }
+
+        /* Add Money Form */
+        .add-money-form {
+            background: var(--bg-secondary);
+            padding: 40px;
+            border-radius: 24px;
+            border: 1px solid var(--card-border);
+            animation: fadeInUp 0.6s cubic-bezier(0.4, 0, 0.2, 1) 0.2s backwards;
+        }
+
+        .form-grid {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 24px;
+            margin-bottom: 24px;
+        }
+
+        .form-group {
+            display: flex;
+            flex-direction: column;
+            gap: 10px;
+        }
+
+        .form-group.full-width {
+            grid-column: 1 / -1;
+        }
+
+        .form-label {
+            font-size: 14px;
+            font-weight: 700;
+            color: var(--text-primary);
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+
+        .form-label svg {
+            width: 16px;
+            height: 16px;
+            fill: var(--accent-primary);
+        }
+
+        .form-label i {
+            font-size: 16px;
+            color: var(--accent-primary);
+        }
+
+        .form-label .required {
+            color: var(--error);
+            margin-left: 4px;
+        }
+
+        .form-input,
+        .form-textarea {
+            background: var(--bg-tertiary);
+            border: 1px solid var(--card-border);
+            border-radius: 12px;
+            padding: 16px 20px;
+            font-size: 15px;
+            color: var(--text-primary);
+            font-family: 'Plus Jakarta Sans', sans-serif;
+            font-weight: 500;
+            transition: all 0.3s ease;
+            outline: none;
+        }
+
+        .form-input:focus,
+        .form-textarea:focus {
+            border-color: var(--success);
+            box-shadow: 0 0 0 3px rgba(0, 255, 148, 0.1);
+            background: var(--bg-secondary);
+        }
+
+        .form-input::placeholder,
+        .form-textarea::placeholder {
+            color: var(--text-secondary);
+        }
+
+        .form-textarea {
+            resize: vertical;
+            min-height: 120px;
+            font-family: 'Plus Jakarta Sans', sans-serif;
+        }
+
+        /* Amount Input Special Styling */
+        .amount-wrapper {
+            position: relative;
+        }
+
+        .currency-symbol {
+            position: absolute;
+            left: 20px;
+            top: 50%;
+            transform: translateY(-50%);
+            font-size: 18px;
+            font-weight: 700;
+            color: var(--success);
+        }
+
+        .form-input.amount-input {
+            padding-left: 45px;
+            font-size: 18px;
+            font-weight: 700;
+            letter-spacing: -0.5px;
+        }
+
+        /* Quick Amount Buttons */
+        .quick-amount-section {
+            margin-bottom: 24px;
+        }
+
+        .quick-amount-label {
+            font-size: 14px;
+            font-weight: 700;
+            color: var(--text-primary);
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+            margin-bottom: 12px;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+
+        .quick-amount-label svg {
+            width: 16px;
+            height: 16px;
+            fill: var(--accent-primary);
+        }
+
+        .quick-amount-label i {
+            font-size: 16px;
+            color: var(--accent-primary);
+        }
+
+        .quick-amounts {
+            display: grid;
+            grid-template-columns: repeat(4, 1fr);
+            gap: 12px;
+        }
+
+        .quick-amount-btn {
+            background: var(--bg-tertiary);
+            border: 1px solid var(--card-border);
+            color: var(--text-primary);
+            padding: 16px;
+            border-radius: 12px;
+            font-size: 16px;
+            font-weight: 700;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            font-family: 'Plus Jakarta Sans', sans-serif;
+        }
+
+        .quick-amount-btn:hover {
+            border-color: var(--success);
+            background: rgba(0, 255, 148, 0.1);
+            transform: translateY(-2px);
+        }
+
+        .quick-amount-btn.active {
+            background: linear-gradient(135deg, var(--success) 0%, var(--accent-primary) 100%);
+            border-color: transparent;
+            color: white;
+        }
+
+        /* Summary Card */
+        .summary-card {
+            background: var(--bg-tertiary);
+            padding: 24px;
+            border-radius: 16px;
+            border: 1px solid var(--card-border);
+            margin-top: 24px;
+        }
+
+        .summary-title {
+            font-size: 16px;
+            font-weight: 700;
+            margin-bottom: 16px;
+            color: var(--text-primary);
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+
+        .summary-title svg {
+            width: 20px;
+            height: 20px;
+            fill: var(--success);
+        }
+
+        .summary-title i {
+            font-size: 20px;
+            color: var(--success);
+        }
+
+        .summary-items {
+            display: flex;
+            flex-direction: column;
+            gap: 12px;
+        }
+
+        .summary-item {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 12px 0;
+            border-bottom: 1px solid rgba(123, 97, 255, 0.1);
+        }
+
+        .summary-item:last-child {
+            border-bottom: none;
+            padding-top: 16px;
+            margin-top: 8px;
+            border-top: 2px solid var(--card-border);
+        }
+
+        .summary-label {
+            font-size: 14px;
+            color: var(--text-secondary);
+            font-weight: 500;
+        }
+
+        .summary-value {
+            font-size: 14px;
+            color: var(--text-primary);
+            font-weight: 600;
+        }
+
+        .summary-item:last-child .summary-label {
+            font-size: 16px;
+            font-weight: 700;
+            color: var(--text-primary);
+        }
+
+        .summary-item:last-child .summary-value {
+            font-size: 20px;
+            font-weight: 800;
+            color: var(--success);
+        }
+
+        /* Action Buttons */
+        .form-actions {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 16px;
+            margin-top: 32px;
+        }
+
+        .btn {
+            padding: 18px 32px;
+            border: none;
+            border-radius: 14px;
+            font-size: 16px;
+            font-weight: 700;
+            cursor: pointer;
+            transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+            font-family: 'Plus Jakarta Sans', sans-serif;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 10px;
+        }
+
+        .btn-primary {
+            background: linear-gradient(135deg, var(--success) 0%, var(--accent-primary) 100%);
+            color: white;
+            box-shadow: 0 8px 24px rgba(0, 255, 148, 0.3);
+        }
+
+        .btn-primary:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 12px 32px rgba(0, 255, 148, 0.4);
+        }
+
+        .btn-primary:active {
+            transform: translateY(-1px);
+        }
+
+        .btn-secondary {
+            background: var(--bg-tertiary);
+            color: var(--text-primary);
+            border: 1px solid var(--card-border);
+        }
+
+        .btn-secondary:hover {
+            background: var(--bg-secondary);
+            border-color: var(--accent-primary);
+        }
+
+        .btn svg {
+            width: 20px;
+            height: 20px;
+            fill: currentColor;
+        }
+
+        .btn i {
+            font-size: 20px;
+        }
+
+        /* Payment Methods */
+        .payment-methods {
+            margin-bottom: 24px;
+        }
+
+        .payment-methods-label {
+            font-size: 14px;
+            font-weight: 700;
+            color: var(--text-primary);
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+            margin-bottom: 12px;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+
+        .payment-methods-label svg {
+            width: 16px;
+            height: 16px;
+            fill: var(--accent-primary);
+        }
+
+        .payment-methods-label i {
+            font-size: 16px;
+            color: var(--accent-primary);
+        }
+
+        .payment-grid {
+            display: grid;
+            grid-template-columns: repeat(4, 1fr);
+            gap: 12px;
+        }
+
+        .payment-method {
+            background: var(--bg-tertiary);
+            border: 2px solid var(--card-border);
+            padding: 20px;
+            border-radius: 12px;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            text-align: center;
+        }
+
+        .payment-method:hover {
+            border-color: var(--success);
+            background: rgba(0, 255, 148, 0.05);
+        }
+
+        .payment-method.active {
+            border-color: var(--success);
+            background: rgba(0, 255, 148, 0.1);
+        }
+
+        .payment-method-icon {
+            width: 48px;
+            height: 48px;
+            margin: 0 auto 12px;
+            background: rgba(123, 97, 255, 0.1);
+            border-radius: 12px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .payment-method-icon svg {
+            width: 24px;
+            height: 24px;
+            fill: var(--text-primary);
+        }
+
+        .payment-method-icon i {
+            font-size: 24px;
+            color: var(--text-primary);
+        }
+
+        .payment-method-name {
+            font-size: 14px;
+            font-weight: 700;
+            color: var(--text-primary);
+        }
+
+        /* Responsive Design */
+        @media (max-width: 768px) {
+            .topbar-content {
+                flex-direction: column;
+                gap: 20px;
+            }
+
+            .user-info {
+                width: 100%;
+                justify-content: center;
+            }
+
+            .add-money-section {
+                margin: 40px auto;
+            }
+
+            .page-icon {
+                width: 70px;
+                height: 70px;
+            }
+
+            .page-icon svg {
+                width: 35px;
+                height: 35px;
+            }
+
+            .page-title {
+                font-size: 28px;
+            }
+
+            .balance-amount {
+                font-size: 40px;
+            }
+
+            .add-money-form {
+                padding: 32px 24px;
+            }
+
+            .form-grid {
+                grid-template-columns: 1fr;
+                gap: 20px;
+            }
+
+            .quick-amounts {
+                grid-template-columns: repeat(2, 1fr);
+            }
+
+            .payment-grid {
+                grid-template-columns: repeat(2, 1fr);
+            }
+
+            .form-actions {
+                grid-template-columns: 1fr;
+            }
+        }
+
+        @media (max-width: 480px) {
+            .container {
+                padding: 0 16px;
+            }
+
+            .topbar-content {
+                padding: 0 16px;
+            }
+
+            .logo-text {
+                font-size: 24px;
+            }
+
+            .logo-icon {
+                width: 40px;
+                height: 40px;
+            }
+
+            .logo-icon svg {
+                width: 24px;
+                height: 24px;
+            }
+
+            .logo-icon i {
+                font-size: 24px;
+            }
+
+            .page-icon {
+                width: 60px;
+                height: 60px;
+            }
+
+            .page-icon svg {
+                width: 30px;
+                height: 30px;
+            }
+
+            .page-icon i {
+                font-size: 30px;
+            }
+
+            .page-title {
+                font-size: 24px;
+            }
+
+            .balance-display {
+                padding: 24px;
+            }
+
+            .balance-amount {
+                font-size: 36px;
+            }
+
+            .add-money-form {
+                padding: 24px 20px;
+            }
+
+            .form-input,
+            .form-textarea {
+                padding: 14px 16px;
+                font-size: 14px;
+            }
+
+            .form-input.amount-input {
+                font-size: 16px;
+            }
+
+            .quick-amounts {
+                grid-template-columns: 1fr;
+            }
+
+            .btn {
+                padding: 16px 24px;
+                font-size: 14px;
+            }
+        }
+
+        /* Animations */
+        @keyframes fadeInUp {
+            from {
+                opacity: 0;
+                transform: translateY(30px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+    </style>
+</head>
+<body>
+    <!-- Topbar -->
+    <div class="topbar">
+        <div class="topbar-content">
+            <div class="logo">
+                <div class="logo-icon">
+                    <i class="fa-solid fa-indian-rupee-sign"></i>
+                </div>
+                <div class="logo-text">PayWallet</div>
+            </div>
+            <div class="user-info">
+                <div class="user-details">
+                    <div class="user-name">Rahul Sharma</div>
+                    <div class="user-email">rahul.sharma@email.com</div>
+                </div>
+                <div class="user-avatar-small">RS</div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Main Content -->
+    <div class="container">
+        <div class="add-money-section">
+            <!-- Page Header -->
+            <div class="page-header">
+                <div class="page-icon">
+                    <i class="fa-solid fa-circle-plus"></i>
+                </div>
+                <h1 class="page-title">Add Money</h1>
+                <p class="page-subtitle">Add funds to your wallet securely and instantly</p>
+            </div>
+
+            <!-- Current Balance Display -->
+            <div class="balance-display">
+                <div class="balance-label">Current Wallet Balance</div>
+                <div class="balance-amount">₹45,230.50</div>
+            </div>
+
+            <!-- Add Money Form -->
+            <form class="add-money-form" id="addMoneyForm">
+                <!-- Payment Methods -->
+                <div class="payment-methods">
+                    <div class="payment-methods-label">
+                        <i class="fa-solid fa-credit-card"></i>
+                        Select Payment Method
+                    </div>
+                    <div class="payment-grid">
+                        <div class="payment-method active" data-method="bank">
+                            <div class="payment-method-icon">
+                                <i class="fa-solid fa-building-columns"></i>
+                            </div>
+                            <div class="payment-method-name">Bank Transfer</div>
+                        </div>
+                        <div class="payment-method" data-method="upi">
+                            <div class="payment-method-icon">
+                                <i class="fa-solid fa-mobile-screen-button"></i>
+                            </div>
+                            <div class="payment-method-name">UPI</div>
+                        </div>
+                        <div class="payment-method" data-method="card">
+                            <div class="payment-method-icon">
+                                <i class="fa-solid fa-credit-card"></i>
+                            </div>
+                            <div class="payment-method-name">Card</div>
+                        </div>
+                        <div class="payment-method" data-method="cash">
+                            <div class="payment-method-icon">
+                                <i class="fa-solid fa-money-bills"></i>
+                            </div>
+                            <div class="payment-method-name">Cash</div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Quick Amount Selection -->
+                <div class="quick-amount-section">
+                    <div class="quick-amount-label">
+                        <i class="fa-solid fa-bolt"></i>
+                        Quick Add Amount
+                    </div>
+                    <div class="quick-amounts">
+                        <button type="button" class="quick-amount-btn" data-amount="500">₹500</button>
+                        <button type="button" class="quick-amount-btn" data-amount="1000">₹1,000</button>
+                        <button type="button" class="quick-amount-btn" data-amount="2000">₹2,000</button>
+                        <button type="button" class="quick-amount-btn" data-amount="5000">₹5,000</button>
+                    </div>
+                </div>
+
+                <div class="form-grid">
+                    <div class="form-group">
+                        <label class="form-label">
+                            <i class="fa-solid fa-calendar-days"></i>
+                            Transaction Date
+                            <span class="required">*</span>
+                        </label>
+                        <input type="date" class="form-input" id="transactionDate" required>
+                    </div>
+
+                    <div class="form-group">
+                        <label class="form-label">
+                            <i class="fa-solid fa-user"></i>
+                            Taken From
+                            <span class="required">*</span>
+                        </label>
+                        <input type="text" class="form-input" id="fromName" placeholder="Enter source name" required>
+                    </div>
+
+                    <div class="form-group full-width">
+                        <label class="form-label">
+                            <i class="fa-solid fa-indian-rupee-sign"></i>
+                            Amount
+                            <span class="required">*</span>
+                        </label>
+                        <div class="amount-wrapper">
+                            <span class="currency-symbol">₹</span>
+                            <input type="number" class="form-input amount-input" id="amount" placeholder="0.00" step="0.01" min="1" required>
+                        </div>
+                    </div>
+
+                    <div class="form-group full-width">
+                        <label class="form-label">
+                            <i class="fa-solid fa-file-lines"></i>
+                            Description
+                        </label>
+                        <textarea class="form-textarea" id="description" placeholder="Add any additional notes about this transaction..."></textarea>
+                    </div>
+                </div>
+
+                <!-- Summary Card -->
+                <div class="summary-card">
+                    <div class="summary-title">
+                        <i class="fa-solid fa-clipboard-check"></i>
+                        Transaction Summary
+                    </div>
+                    <div class="summary-items">
+                        <div class="summary-item">
+                            <span class="summary-label">From</span>
+                            <span class="summary-value" id="summaryFrom">-</span>
+                        </div>
+                        <div class="summary-item">
+                            <span class="summary-label">Payment Method</span>
+                            <span class="summary-value" id="summaryMethod">Bank Transfer</span>
+                        </div>
+                        <div class="summary-item">
+                            <span class="summary-label">Processing Fee</span>
+                            <span class="summary-value">₹0.00</span>
+                        </div>
+                        <div class="summary-item">
+                            <span class="summary-label">Current Balance</span>
+                            <span class="summary-value">₹45,230.50</span>
+                        </div>
+                        <div class="summary-item">
+                            <span class="summary-label">New Balance</span>
+                            <span class="summary-value" id="summaryNewBalance">₹45,230.50</span>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="form-actions">
+                    <button type="button" class="btn btn-secondary" id="cancelBtn">
+                        <i class="fa-solid fa-xmark"></i>
+                        Cancel
+                    </button>
+                    <button type="submit" class="btn btn-primary">
+                        <i class="fa-solid fa-circle-plus"></i>
+                        Add Money
+                    </button>
+                </div>
+            </form>
+        </div>
+    </div>
+
+    <script>
+        const currentBalance = 45230.50;
+
+        // Set today's date as default
+        document.getElementById('transactionDate').valueAsDate = new Date();
+
+        // Payment method selection
+        document.querySelectorAll('.payment-method').forEach(method => {
+            method.addEventListener('click', function() {
+                document.querySelectorAll('.payment-method').forEach(m => m.classList.remove('active'));
+                this.classList.add('active');
+                const methodName = this.querySelector('.payment-method-name').textContent;
+                document.getElementById('summaryMethod').textContent = methodName;
+            });
+        });
+
+        // Quick amount buttons
+        document.querySelectorAll('.quick-amount-btn').forEach(btn => {
+            btn.addEventListener('click', function() {
+                document.querySelectorAll('.quick-amount-btn').forEach(b => b.classList.remove('active'));
+                this.classList.add('active');
+                const amount = this.dataset.amount;
+                document.getElementById('amount').value = amount;
+                updateSummary();
+            });
+        });
+
+        // Update summary in real-time
+        function updateSummary() {
+            const fromName = document.getElementById('fromName');
+            const amount = document.getElementById('amount');
+
+            // Update From Name
+            document.getElementById('summaryFrom').textContent = fromName.value || '-';
+
+            // Update New Balance
+            const amountValue = parseFloat(amount.value) || 0;
+            const newBalance = currentBalance + amountValue;
+            document.getElementById('summaryNewBalance').textContent = '₹' + newBalance.toFixed(2);
+        }
+
+        // Add event listeners for real-time updates
+        document.getElementById('fromName').addEventListener('input', updateSummary);
+        document.getElementById('amount').addEventListener('input', updateSummary);
+
+        // Form submission handler
+        document.getElementById('addMoneyForm').addEventListener('submit', function(e) {
+            e.preventDefault();
+
+            const formData = {
+                date: document.getElementById('transactionDate').value,
+                fromName: document.getElementById('fromName').value,
+                amount: document.getElementById('amount').value,
+                description: document.getElementById('description').value,
+                paymentMethod: document.querySelector('.payment-method.active').dataset.method
+            };
+
+            // Validation
+            if (!formData.date || !formData.fromName || !formData.amount) {
+                alert('Please fill in all required fields!');
+                return;
+            }
+
+            if (parseFloat(formData.amount) <= 0) {
+                alert('Please enter a valid amount!');
+                return;
+            }
+
+            // Here you would typically send the form data to your server
+            console.log('Add Money Data:', formData);
+            
+            const newBalance = currentBalance + parseFloat(formData.amount);
+            
+            // Show success message
+            alert(`₹${parseFloat(formData.amount).toFixed(2)} added successfully!\nNew Balance: ₹${newBalance.toFixed(2)}`);
+            
+            // Reset form
+            this.reset();
+            document.getElementById('transactionDate').valueAsDate = new Date();
+            document.querySelectorAll('.quick-amount-btn').forEach(b => b.classList.remove('active'));
+            updateSummary();
+        });
+
+        // Cancel button handler
+        document.getElementById('cancelBtn').addEventListener('click', function() {
+            if (confirm('Are you sure you want to cancel? All entered data will be lost.')) {
+                window.location.href = 'wallet.html';
+            }
+        });
+
+        // Format amount input
+        document.getElementById('amount').addEventListener('blur', function() {
+            if (this.value) {
+                this.value = parseFloat(this.value).toFixed(2);
+                updateSummary();
+            }
+        });
+    </script>
+</body>
+</html>
